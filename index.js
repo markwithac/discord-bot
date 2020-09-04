@@ -14,13 +14,22 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.setInterval(() => {
+// its friday checker
+client.setInterval(() => {  
   let curDate = new Date()
-  curDate = curDate.getDay()
-  if (curDate === 5) {
-    client.channels.get('736072678540312616').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
+  console.log(`Date checked: ${curDate.toUTCString()}`)
+  
+  if (curDate.getDay() === 5  && curDate.getUTCHours() > 12 && curDate.getUTCHours() < 14) {
+    let minChecker = client.setInterval(() => {
+      if (curDate.getUTCHours() == 13) {
+        client.channels.cache.get('736072678540312616').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
+        clearInterval(minChecker)
+      } 
+    }, 60000) // every minute until 9am ET
   }
-}, 1000)
+}, 3600000) // every hour
+
+
 
 client.on('message', msg => {
   if (msg.content.toLowerCase() === `${prefix}ping`) {

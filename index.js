@@ -14,6 +14,14 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+client.setInterval(() => {
+  let curDate = new Date()
+  curDate = curDate.getDay()
+  if (curDate === 5) {
+    client.channels.get('736072678540312616').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
+  }
+}, 1000)
+
 client.on('message', msg => {
   if (msg.content.toLowerCase() === `${prefix}ping`) {
     msg.channel.send('Pong!');

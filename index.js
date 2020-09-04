@@ -29,7 +29,7 @@ client.on('message', msg => {
     let hour = date.getHours();
     let minute = date.getMinutes();
     let seconds = date.getSeconds();
-    msg.channel.send(`${hour}:${minute}:${seconds}`)
+    msg.channel.send(`${hour - 3}:${minute}:${seconds}`)
   }
 });
 

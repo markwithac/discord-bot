@@ -30,7 +30,6 @@ client.setInterval(() => {
 }, 3600000) // every hour
 
 
-
 client.on('message', msg => {
   if (msg.content.toLowerCase() === `${prefix}ping`) {
     msg.channel.send('Pong!');

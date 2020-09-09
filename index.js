@@ -35,7 +35,10 @@ client.on('message', msg => {
     msg.channel.send('Pong!');
   } else if (msg.content.toLowerCase() === `${prefix}ding`) {
     msg.channel.send('Dong!');
-
+  } else if (msg.content.toLowerCase() === `${prefix}wing`) {
+    msg.channel.send('Wong!');
+  } else if (msg.content.toLowerCase() === `${prefix}whodat`) {
+    msg.channel.send('ur mum!');
   } else if (msg.content.toLowerCase() === `${prefix}date`) {
     let month = date.getMonth()
     let day = date.getDay()

@@ -51,6 +51,10 @@ client.on('message', msg => {
     msg.channel.send(`${hour - 3}:${minute}:${seconds}`)
   } else if (msg.content.toLowerCase() === `${prefix}bestleagueplayer`) {
     msg.channel.send("Mark with a C!");
+  } else if (msg.content.toLowerCase() === `${prefix}bestleagueplayer`) {
+    msg.channel.send("Mark with a C!");
+  } else if (msg.content.toLowerCase() === `fuck you`) {
+    msg.channel.send("na fuck you");
   }});
 
 client.login(process.env.TOKEN);

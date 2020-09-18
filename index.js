@@ -22,7 +22,7 @@ client.setInterval(() => {
   if (curDate.getDay() === 5  && curDate.getUTCHours() > 12 && curDate.getUTCHours() < 14) {
     let minChecker = client.setInterval(() => {
       if (curDate.getUTCHours() == 13) {
-        client.channels.cache.get('736072678540312616').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
+        client.channels.cache.get('379813082362281995').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
         clearInterval(minChecker)
       } 
     }, 60000) // every minute until 9am ET
@@ -49,7 +49,8 @@ client.on('message', msg => {
     let minute = date.getMinutes();
     let seconds = date.getSeconds();
     msg.channel.send(`${hour - 3}:${minute}:${seconds}`)
-  }
-});
+  } else if (msg.content.toLowerCase() === `${prefix}bestleagueplayer`) {
+    msg.channel.send("Mark with a C!");
+  }});
 
 client.login(process.env.TOKEN);

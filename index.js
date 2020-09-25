@@ -1,20 +1,41 @@
+const fs = require('fs');
 const Discord = require('discord.js');
-const client = new Discord.Client();
 const { prefix } = require('./config.json');
 require('dotenv').config()
 
-const date = new Date();
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
 
-const commands = [{
-  "ping": "Pong!",
-  "ding": "Dong!",
-}]
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-client.on('ready', () => {
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);  // set a new item in the Collection with the key as the command name and the value as the exported module
+}
+
+// Log in
+client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+// Commands
+client.on('message', async message => {
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const commandName = args.shift().toLowerCase();
+
+  const command = client.commands.get(commandName);
+
+  try {
+		command.execute(message, args);
+	} catch (error) {
+		console.error(error);
+		message.reply('there was an error trying to execute that command!');
+	}
+
 // its friday checker
+const date = new Date();
 client.setInterval(() => {  
   let curDate = new Date()
   console.log(`Date checked: ${curDate.toUTCString()}`)
@@ -29,32 +50,6 @@ client.setInterval(() => {
   }
 }, 3600000) // every hour
 
-
-client.on('message', msg => {
-  if (msg.content.toLowerCase() === `${prefix}ping`) {
-    msg.channel.send('Pong!');
-  } else if (msg.content.toLowerCase() === `${prefix}ding`) {
-    msg.channel.send('Dong!');
-  } else if (msg.content.toLowerCase() === `${prefix}wing`) {
-    msg.channel.send('Wong!');
-  } else if (msg.content.toLowerCase() === `${prefix}whodat`) {
-    msg.channel.send('ur mum!');
-  } else if (msg.content.toLowerCase() === `${prefix}date`) {
-    let month = date.getMonth()
-    let day = date.getDay()
-    let year = date.getFullYear()
-    msg.channel.send(`${month}-${day}-${year}`)
-  } else if (msg.content.toLowerCase() === `${prefix}time`) {
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let seconds = date.getSeconds();
-    msg.channel.send(`${hour - 3}:${minute}:${seconds}`)
-  } else if (msg.content.toLowerCase() === `${prefix}bestleagueplayer`) {
-    msg.channel.send("Mark with a C!");
-  } else if (msg.content.toLowerCase() === `${prefix}bestleagueplayer`) {
-    msg.channel.send("Mark with a C!");
-  } else if (msg.content.toLowerCase() === `fuck you`) {
-    msg.channel.send("na fuck you");
-  }});
+});
 
 client.login(process.env.TOKEN);

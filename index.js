@@ -22,7 +22,7 @@ client.once('ready', () => {
 client.on('message', async message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const args = message.content.slice(prefix.length).trim().split(' ');
   const commandName = args.shift().toLowerCase();
 
   const command = client.commands.get(commandName);
@@ -52,4 +52,4 @@ client.setInterval(() => {
 
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN || "NzUxNDQ0MDE5MzYzNTc3OTM4.X1JKxw.DjI2uoJmUXSOrNrwpnbtjQ2jkxs");

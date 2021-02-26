@@ -23,7 +23,7 @@ module.exports = {
 			const summonerName = `/lol/summoner/v4/summoners/by-name`
 			const matchAccId = `/lol/match/v4/matchlists/by-account`
 			const matchId = "/lol/match/v4/matches"
-			const KEY = "RGAPI-34950f9f-5ce0-4bec-a450-62a20a5ad042"
+			const KEY = process.env.API_KEY
 
 			try {
         (async () => {

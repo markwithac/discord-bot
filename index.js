@@ -52,4 +52,4 @@ client.setInterval(() => {
 
 });
 
-client.login(process.env.TOKEN || "NzUxNDQ0MDE5MzYzNTc3OTM4.X1JKxw.DjI2uoJmUXSOrNrwpnbtjQ2jkxs");
+client.login(process.env.TOKEN);

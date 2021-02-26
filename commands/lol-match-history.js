@@ -3,22 +3,17 @@ const fetch = require('node-fetch')
 const fs = require('fs');
 const { stringify } = require('querystring');
 
-var data = JSON.parse(fs.readFileSync('champions.json'));
-// console.log(Object.values(data.data))
-// Object.keys(rawdata).map(e => console.log(e.id))
+let data = JSON.parse(fs.readFileSync('champions.json'));
 
 module.exports = {
-	
 	name: 'lol',
-	description: 'Prune up to 99 messages.',
+	description: 'Search NA LoL Match History.',
 	
 	async execute(message, args) {
 		if (!args.length) {
 			return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-		
 		} else {
-	
-			const summonerQuery = args[0];
+			const summonerQuery = encodeURIComponent(args[0]).split(" ").join("_").replace(/%20/g, " ");
 			const NAroute = "https://na1.api.riotgames.com";
 			const summonerName = `/lol/summoner/v4/summoners/by-name`
 			const matchAccId = `/lol/match/v4/matchlists/by-account`
@@ -27,6 +22,7 @@ module.exports = {
 
 			try {
         (async () => {
+          
           const response1 = await fetch(
             `${NAroute}${summonerName}/${summonerQuery}?api_key=${KEY}`
             )
@@ -36,10 +32,11 @@ module.exports = {
               ))
             .then( res => res.json())
             .catch(error => console.log(error))
-        
+
           const response2 = await Promise.all(response1.matches.map(item => 
             fetch(`${NAroute}${matchId}/${item.gameId}?api_key=${KEY}`)
             .then(res => res.json()))) 
+            .catch(error => console.log(error))
         
           participantIds = []
           championIds = []
@@ -55,7 +52,10 @@ module.exports = {
       
           let results = []
           response2.map((each, i) => {
-            if (( each.teams[0].win == "Win" && participantIds[i] <6 ) || ( each.teams[1].win == "Win" && participantIds[i] > 5 ) ) {
+            if (
+              ( each.teams[0].win == "Win" && participantIds[i] <6 ) || 
+              ( each.teams[1].win == "Win" && participantIds[i] > 5 ) 
+            ) {
               results.push("Victory")
             } else { results.push("Defeat") }
           })
@@ -73,7 +73,7 @@ module.exports = {
 
           championNames.forEach((champion, i) => finalResults.push({[champion] : results[i]}));
           finalResults = JSON.stringify(finalResults, null, 1)
-          console.log(finalResults[0])
+          // console.log(finalResults[0])
 
           message.channel.send(finalResults);
 

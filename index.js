@@ -30,26 +30,31 @@ client.on('message', async message => {
   try {
 		command.execute(message, args);
 	} catch (error) {
-		console.error(error);
+		// console.error(error);
 		message.reply('there was an error trying to execute that command!');
 	}
+});
 
-// its friday checker
-const date = new Date();
+
+// Its friday checker
 client.setInterval(() => {  
   let curDate = new Date()
   console.log(`Date checked: ${curDate.toUTCString()}`)
   
-  if (curDate.getDay() === 5  && curDate.getUTCHours() > 12 && curDate.getUTCHours() < 14) {
+  if (
+    curDate.getDay() === 5  
+    && curDate.getUTCHours() >= 17 
+    && curDate.getUTCHours() <= 18
+  ) {
     let minChecker = client.setInterval(() => {
-      if (curDate.getUTCHours() == 13) {
+      console.log('Minute checked')
+      if (curDate.getUTCHours() == 18) {
         client.channels.cache.get('379813082362281995').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
         clearInterval(minChecker)
+        console.log('interval cleared')
       } 
     }, 60000) // every minute until 9am ET
   }
-}, 3600000) // every hour
-
-});
+}, 3600000) // every hour  = 3600000
 
 client.login(process.env.TOKEN);

@@ -41,14 +41,16 @@ client.setInterval(() => {
   let curDate = new Date()
   console.log(`Date checked: ${curDate.toUTCString()}`)
   
+  // check that time is approaching Fri, 9am EST. 
+  // If so -> start minChecker
   if (
     curDate.getDay() === 5  
-    && curDate.getUTCHours() >= 17 
-    && curDate.getUTCHours() <= 18
-  ) {
+    && curDate.getUTCHours() === 13 
+    // && curDate.getUTCHours() <= 14
+  ) { 
     let minChecker = client.setInterval(() => {
       console.log('Minute checked')
-      if (curDate.getUTCHours() == 18) {
+      if (curDate.getUTCHours() === 14) {
         client.channels.cache.get('379813082362281995').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
         clearInterval(minChecker)
         console.log('interval cleared')

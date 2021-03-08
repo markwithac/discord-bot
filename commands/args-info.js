@@ -9,4 +9,4 @@ module.exports = {
 		
 		message.channel.send(`Command name: ${command}\nArguments: ${args}`);
 	},
-};
+};  

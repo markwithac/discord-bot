@@ -45,17 +45,17 @@ client.setInterval(() => {
   // If so -> start minChecker
   if (
     curDate.getDay() === 5  
-    && curDate.getUTCHours() === 13 
-    // && curDate.getUTCHours() <= 14
+    && curDate.getUTCHours() >= 12 
+    && curDate.getUTCHours() <= 14
   ) { 
     let minChecker = client.setInterval(() => {
-      console.log('Minute checked')
+      console.log('Time checked')
       if (curDate.getUTCHours() === 14) {
         client.channels.cache.get('379813082362281995').send("https://www.youtube.com/watch?v=1AnG04qnLqI")
         clearInterval(minChecker)
-        console.log('interval cleared')
+        console.log('9AM Found, interval cleared')
       } 
-    }, 60000) // every minute until 9am ET
+    }, 50000) // every minute until 9am ET
   }
 }, 3600000) // every hour  = 3600000
 
